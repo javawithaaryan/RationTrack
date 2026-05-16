@@ -8,11 +8,18 @@ import { AdminDashboard } from '@/components/AdminDashboard';
 import { DealerPanel } from '@/components/DealerPanel';
 import { CitizenPortal } from '@/components/CitizenPortal';
 import { AlertsPage } from '@/components/AlertsPage';
+<<<<<<< HEAD
 import { ComplaintsPage } from '@/components/ComplaintsPage';
 import { MapVisualization } from '@/components/MapVisualization';
 import { Toast } from '@/components/Toast';
 
 type TabType = 'dashboard' | 'dealer' | 'citizen' | 'alerts' | 'map' | 'complaints';
+=======
+import { MapVisualization } from '@/components/MapVisualization';
+import { Toast } from '@/components/Toast';
+
+type TabType = 'dashboard' | 'dealer' | 'citizen' | 'alerts' | 'map';
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<TabType>('dealer');
@@ -35,8 +42,11 @@ export default function Home() {
         return <CitizenPortal />;
       case 'alerts':
         return <AlertsPage />;
+<<<<<<< HEAD
       case 'complaints':
         return <ComplaintsPage />;
+=======
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
       case 'map':
         return <MapVisualization />;
       default:

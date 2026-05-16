@@ -4,12 +4,19 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { useAppStore } from '@/lib/store';
 import { StatusBadge } from './StatusBadge';
+<<<<<<< HEAD
 import { Download, X, TrendingUp, MapPin, Search, ChevronRight, Activity, ShieldAlert, FileText } from 'lucide-react';
 
 const MapInner = dynamic(() => import('./MapInner'), { 
   ssr: false, 
   loading: () => <div className="h-[600px] glass-panel animate-pulse rounded-[3rem] flex items-center justify-center text-slate-400 font-black uppercase tracking-widest text-[10px]">Initializing Surveillance Grid...</div> 
 });
+=======
+import { mockDealers } from '@/lib/mockData';
+import { Download, X, TrendingUp, MapPin } from 'lucide-react';
+
+const MapInner = dynamic(() => import('./MapInner'), { ssr: false, loading: () => <div className="h-[500px] bg-gray-100 animate-pulse rounded-2xl flex items-center justify-center">Loading map...</div> });
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
 
 export function MapVisualization() {
   const { state } = useAppStore();
@@ -42,10 +49,17 @@ export function MapVisualization() {
 
   const getRiskColor = (riskLevel: string) => {
     switch (riskLevel) {
+<<<<<<< HEAD
       case 'safe': return '#10b981';     // emerald
       case 'suspicious': return '#f59e0b'; // amber
       case 'high': return '#ef4444';      // red
       default: return '#94a3b8';
+=======
+      case 'safe': return '#22c55e';     // green
+      case 'suspicious': return '#f59e0b'; // orange
+      case 'high': return '#ef4444';      // red
+      default: return '#9ca3af';
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
     }
   };
 
@@ -64,6 +78,7 @@ export function MapVisualization() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-900/50 p-6 md:p-10 space-y-10 animate-fade-in">
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-8">
@@ -188,11 +203,91 @@ export function MapVisualization() {
                 </div>
               )}
            </div>
+=======
+    <div className="p-4 md:p-8 space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">MP District Map</h1>
+          <p className="text-gray-500 mt-1 text-sm">Risk assessment by district — click any marker for details</p>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2 bg-white rounded-2xl p-4 md:p-6 shadow-md relative z-0">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+            <MapPin size={20} style={{ color: '#E8620A' }} />
+            Madhya Pradesh Districts
+          </h2>
+          <MapInner
+            districts={mockDistricts}
+            selectedDistrict={selectedDistrict}
+            onSelectDistrict={setSelectedDistrict}
+            getRiskColor={getRiskColor}
+          />
+        </div>
+
+        {/* Details Panel */}
+        <div className="bg-white rounded-2xl p-6 shadow-md h-fit">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-gray-900">District Details</h2>
+            {selectedDistrict && (
+              <button onClick={() => setSelectedDistrict(null)} className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors">
+                <X size={18} className="text-gray-500" />
+              </button>
+            )}
+          </div>
+
+          {selectedDistrict ? (
+            <div className="space-y-4 animate-fade-in-up">
+              <div>
+                <p className="text-2xl font-bold text-gray-900">{selectedDistrict.name} District</p>
+                <div
+                  className="inline-flex items-center gap-1.5 px-3 py-1 mt-2 rounded-full text-xs font-bold text-white"
+                  style={{ backgroundColor: getRiskColor(selectedDistrict.riskLevel) }}
+                >
+                  {selectedDistrict.riskLevel === 'high' ? '🔴' : selectedDistrict.riskLevel === 'suspicious' ? '🟠' : '🟢'}
+                  {selectedDistrict.riskLevel.toUpperCase()} RISK
+                </div>
+              </div>
+
+              <div className="bg-red-50 rounded-xl p-3 border border-red-100">
+                <p className="text-xs text-red-500 uppercase font-bold mb-1">Total Alerts</p>
+                <p className="font-bold text-red-700 text-lg">{selectedDistrict.alerts} alerts</p>
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-3">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Flagged Shops & Status</p>
+                <p className="font-medium text-gray-900 text-sm whitespace-pre-wrap">{selectedDistrict.shops}</p>
+              </div>
+
+              <div className="bg-gray-50 rounded-xl p-3">
+                <p className="text-xs text-gray-500 uppercase font-semibold mb-1">Most Recent Alert</p>
+                <p className="font-medium text-gray-900 text-sm">{selectedDistrict.lastAlert}</p>
+              </div>
+
+              <button
+                onClick={() => setShowFullLog(true)}
+                className="w-full py-2.5 rounded-xl font-semibold text-white text-sm transition-all hover:opacity-90 mt-2"
+                style={{ backgroundColor: '#E8620A' }}
+              >
+                View Full Log
+              </button>
+            </div>
+          ) : (
+            <div className="h-80 flex flex-col items-center justify-center text-center">
+              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                <TrendingUp size={28} className="text-gray-400" />
+              </div>
+              <p className="text-gray-500">Click a district marker to view details</p>
+            </div>
+          )}
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
         </div>
       </div>
 
       {/* Full Log Modal */}
       {showFullLog && selectedDistrict && (
+<<<<<<< HEAD
         <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-xl z-[100] flex items-center justify-center p-6 animate-fade-in">
           <div className="glass-panel w-full max-w-6xl h-[85vh] flex flex-col overflow-hidden shadow-[0_0_100px_rgba(0,0,0,0.5)] rounded-[4rem] border-white/10">
             <div className="flex items-center justify-between p-10 border-b border-white/5 bg-white/5">
@@ -209,10 +304,26 @@ export function MapVisualization() {
                 </button>
                 <button onClick={() => setShowFullLog(false)} className="w-14 h-14 bg-white text-slate-900 rounded-2xl flex items-center justify-center hover:rotate-90 transition-transform">
                   <X size={24} />
+=======
+        <div className="fixed inset-0 bg-black/50 z-[100] flex items-center justify-center p-4">
+          <div className="bg-white rounded-2xl w-full max-w-5xl h-[80vh] flex flex-col overflow-hidden shadow-2xl animate-fade-in-up">
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h2 className="text-xl font-bold text-gray-900">{selectedDistrict.name} — Full Transaction Log</h2>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={handleExportCSV}
+                  className="flex items-center gap-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm font-semibold transition-colors"
+                >
+                  <Download size={16} /> Export CSV
+                </button>
+                <button onClick={() => setShowFullLog(false)} className="p-2 bg-gray-100 hover:bg-gray-200 rounded-full text-gray-600 transition-colors">
+                  <X size={20} />
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
                 </button>
               </div>
             </div>
 
+<<<<<<< HEAD
             <div className="flex-1 overflow-auto p-10 bg-slate-950/50">
                <div className="rounded-[2.5rem] border border-white/5 overflow-hidden bg-white/5">
                 <table className="w-full">
@@ -250,6 +361,35 @@ export function MapVisualization() {
                              </div>
                           </td>
                           <td className="px-8 py-6 text-center">
+=======
+            <div className="flex-1 overflow-auto p-6 bg-gray-50">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="bg-gray-50 border-b border-gray-200">
+                      <th className="px-5 py-4 text-left font-semibold text-gray-600">Date</th>
+                      <th className="px-5 py-4 text-left font-semibold text-gray-600">Beneficiary</th>
+                      <th className="px-5 py-4 text-left font-semibold text-gray-600">Grain</th>
+                      <th className="px-5 py-4 text-left font-semibold text-gray-600">Quantity</th>
+                      <th className="px-5 py-4 text-left font-semibold text-gray-600">Shop</th>
+                      <th className="px-5 py-4 text-center font-semibold text-gray-600">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {state.transactions.slice(0, 10).map((txn, idx) => {
+                      const currentStatus = state.verificationStatuses[txn.id] || txn.status;
+                      const isReported = currentStatus === 'reported';
+                      return (
+                        <tr key={idx} className={`border-b border-gray-100 hover:bg-gray-50 transition-colors ${isReported ? 'bg-[#FEF2F2]' : ''}`}>
+                          <td className="px-5 py-4 text-gray-700">{new Date(txn.timestamp).toLocaleString([], { dateStyle: 'short', timeStyle: 'short' })}</td>
+                          <td className="px-5 py-4 font-medium text-gray-900">{txn.beneficiaryName}</td>
+                          <td className="px-5 py-4 text-gray-700">{txn.grainType}</td>
+                          <td className="px-5 py-4 text-gray-900 font-bold">{txn.quantity}{txn.unit}</td>
+                          <td className="px-5 py-4 text-gray-600">
+                            <span className="bg-blue-50 text-blue-700 px-2.5 py-1 rounded-md text-xs font-semibold">{txn.dealerName}</span>
+                          </td>
+                          <td className="px-5 py-4 text-center">
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
                             <StatusBadge status={currentStatus} />
                           </td>
                         </tr>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+<<<<<<< HEAD
 import { 
   Send, 
   Clock, 
@@ -24,6 +25,13 @@ import {
 import { useAppStore } from '@/lib/store';
 import { StatusBadge } from './StatusBadge';
 import {
+=======
+import { Send, Clock, Wifi, Battery, Signal, LogOut, Minus, Plus, Wand2, AlertCircle } from 'lucide-react';
+import { useAppStore } from '@/lib/store';
+import { StatusBadge } from './StatusBadge';
+import {
+  mockBeneficiaries,
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
   findBeneficiaryByAadhaar,
   findBeneficiaryByName,
   grainOptions,
@@ -107,12 +115,21 @@ export function DealerPanel() {
       'DLR-002': 'D002',
       'DLR-003': 'D003'
     };
+<<<<<<< HEAD
     const inputId = loginId.trim().toUpperCase();
     const dealerId = credentials[inputId] || (state.dealers[inputId] ? inputId : null);
 
     if (dealerId && loginPassword === 'pass123') {
       setLoggedInDealerId(dealerId);
       showToast('Welcome back, Agent', 'success');
+=======
+    const dealerId = credentials[loginId];
+    const dealer = dealerId ? state.dealers[dealerId] : null;
+
+    if (dealerId && loginPassword === 'pass123') {
+      setLoggedInDealerId(dealerId);
+      showToast('Login successful', 'success');
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
       setLoginId('');
       setLoginPassword('');
     } else {
@@ -136,7 +153,11 @@ export function DealerPanel() {
     if (isNaN(numValue) || numValue < 0) numValue = 0;
     
     setGrainQuantities(prev => {
+<<<<<<< HEAD
       const next = { ...prev as Record<string, number>, [type]: numValue };
+=======
+      const next = { ...prev, [type]: numValue };
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
       if (numValue === 0) {
         delete next[type];
       }
@@ -145,7 +166,11 @@ export function DealerPanel() {
   };
 
   const adjustQuantity = (type: string, delta: number) => {
+<<<<<<< HEAD
     const current = (grainQuantities as Record<string, number>)[type] || 0;
+=======
+    const current = grainQuantities[type] || 0;
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
     const next = Math.max(0, current + delta);
     updateQuantity(type, next);
   };
@@ -159,7 +184,11 @@ export function DealerPanel() {
   };
 
   const countSelectedItems = Object.keys(grainQuantities).length;
+<<<<<<< HEAD
   const totalQuantity = Object.values(grainQuantities).reduce((acc, val) => (acc as number) + (val as number), 0);
+=======
+  const totalQuantity = Object.values(grainQuantities).reduce((acc, val) => acc + val, 0);
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,10 +208,17 @@ export function DealerPanel() {
     }
 
     const selectedItems = grainOptions
+<<<<<<< HEAD
       .filter(g => (grainQuantities as Record<string, number>)[g.type] > 0)
       .map(g => ({
         type: g.type,
         amount: (grainQuantities as Record<string, number>)[g.type] || 0,
+=======
+      .filter(g => grainQuantities[g.type] > 0)
+      .map(g => ({
+        type: g.type,
+        amount: grainQuantities[g.type] || 0,
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
         unit: g.unit
       }));
 
@@ -265,7 +301,11 @@ export function DealerPanel() {
       },
     });
 
+<<<<<<< HEAD
     showToast('Success: SMS Notification Dispatched', 'info');
+=======
+    showToast('SMS Sent', 'info');
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
 
     // Reset form
     setAadhaarLast4('');
@@ -288,7 +328,11 @@ export function DealerPanel() {
       },
     });
     dispatch({ type: 'UPDATE_DEALER_TRUST_SCORE', payload: { dealerId: currentDealer.id, delta: -3 } });
+<<<<<<< HEAD
     showToast('Complaint Filed', 'success');
+=======
+    showToast('Complaint Filed', 'error');
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
     setShowButtons(false);
   };
 
@@ -303,6 +347,7 @@ export function DealerPanel() {
   // Login Screen Render
   if (!loggedInDealerId) {
     return (
+<<<<<<< HEAD
       <div className="flex min-h-screen items-center justify-center p-6 bg-slate-50 dark:bg-slate-900 animate-fade-in">
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -ml-64 -mt-64" />
@@ -357,12 +402,56 @@ export function DealerPanel() {
           
           <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400 font-bold uppercase tracking-widest text-center leading-relaxed">
              Test Acc: DLR-001 <span className="mx-2">|</span> Pin: pass123
+=======
+      <div className="flex h-full items-center justify-center p-4">
+        <div className="bg-white rounded-2xl p-8 max-w-sm w-full shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">Dealer Login</h2>
+          <p className="text-gray-500 text-sm mb-6 text-center">Secure access to MP PDS system</p>
+          <form onSubmit={handleLogin} className="space-y-4">
+            {loginId && state.dealers[({'DLR-001':'D001','DLR-002':'D002','DLR-003':'D003'} as any)[loginId]]?.isSuspended && (
+              <div className="bg-red-600 text-white text-xs font-bold py-2 px-3 rounded-lg flex items-center gap-2 animate-pulse">
+                <AlertCircle size={14} /> SUSPENDED
+              </div>
+            )}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Dealer ID</label>
+              <input
+                type="text"
+                value={loginId}
+                onChange={(e) => setLoginId(e.target.value)}
+                placeholder="e.g. DLR-001"
+                className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                required
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+              <input
+                type="password"
+                value={loginPassword}
+                onChange={(e) => setLoginPassword(e.target.value)}
+                placeholder="••••••"
+                className="w-full px-4 py-2 border rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full py-2.5 bg-[#E8620A] text-white rounded-xl font-semibold hover:opacity-90 transition-opacity"
+            >
+              Sign In
+            </button>
+          </form>
+          <div className="mt-4 text-xs text-gray-400 text-center">
+            Demo Credentials:<br/>DLR-001 / pass123<br/>DLR-002 / pass123<br/>DLR-003 / pass123
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
           </div>
         </div>
       </div>
     );
   }
 
+<<<<<<< HEAD
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-900/50 p-6 md:p-10 space-y-10 animate-fade-in">
       {/* Header */}
@@ -643,6 +732,356 @@ export function DealerPanel() {
                  Request Stock Replenishment <ChevronRight className="w-3 h-3" />
               </button>
            </div>
+=======
+  // Dashboard Render
+  return (
+    <div className="p-4 md:p-8 space-y-6">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Dealer Panel</h1>
+          <p className="text-gray-500 mt-1 text-sm">
+            {currentDealer?.owner} · {currentDealer?.name} · {currentDealer?.district} · Trust: {currentDealer?.trustScore}%
+          </p>
+        </div>
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-200 transition-colors w-fit"
+        >
+          <LogOut size={16} /> Logout
+        </button>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* LEFT — Distribution Form */}
+        <div className="bg-white rounded-2xl p-6 shadow-md space-y-5">
+          {/* Quota Progress */}
+          <div className="bg-gray-50 rounded-xl p-4">
+            <div className="flex justify-between text-sm mb-2">
+              <span className="font-medium text-gray-700">Monthly Distribution</span>
+              <span className="font-semibold text-gray-900">{monthlyCount} / {currentDealer?.monthlyQuota} families</span>
+            </div>
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{
+                  width: `${Math.min((monthlyCount / (currentDealer?.monthlyQuota || 1)) * 100, 100)}%`,
+                  backgroundColor: monthlyCount / (currentDealer?.monthlyQuota || 1) > 0.9 ? '#EF4444' : '#128807',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Aadhaar */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Aadhaar Last 4 Digits
+              </label>
+              <input
+                type="text"
+                inputMode="numeric"
+                maxLength={4}
+                value={aadhaarLast4}
+                onChange={(e) => setAadhaarLast4(e.target.value.replace(/\D/g, ''))}
+                placeholder="e.g., 0001"
+                className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 text-lg tracking-widest font-mono"
+              />
+            </div>
+
+            {/* Beneficiary Name */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1.5">
+                Beneficiary Name
+              </label>
+              <input
+                type="text"
+                value={matchedName}
+                onChange={(e) => setMatchedName(e.target.value)}
+                placeholder="Auto-fills when Aadhaar matches"
+                className={`w-full px-4 py-2.5 border rounded-xl focus:outline-none focus:ring-2 focus:ring-green-600 ${
+                  matchedName ? 'border-green-400 bg-green-50 font-medium' : 'border-gray-300'
+                }`}
+                readOnly={!!findBeneficiaryByAadhaar(aadhaarLast4)}
+              />
+            </div>
+
+            {/* Grain Selection (FLEXIBLE QUANTITY) */}
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Distribution Quantities
+                </label>
+                <button
+                  type="button"
+                  onClick={fillDefaultEntitlement}
+                  className="flex items-center gap-1.5 text-xs font-semibold text-[#E8620A] bg-orange-50 px-2.5 py-1 rounded-full hover:bg-orange-100 transition-colors"
+                >
+                  <Wand2 size={12} /> Auto-fill Default
+                </button>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {grainOptions.map((grain) => {
+                  const isActive = (grainQuantities[grain.type] || 0) > 0;
+                  const matchedBeneficiary = findBeneficiaryByAadhaar(aadhaarLast4) || findBeneficiaryByName(matchedName);
+                  const beneMax = matchedBeneficiary?.entitlement ? (matchedBeneficiary.entitlement as any)[grain.type.toLowerCase()] : null;
+                  const isExceeded = beneMax !== null && isActive && (grainQuantities[grain.type] || 0) > beneMax;
+
+                  return (
+                    <div
+                      key={grain.type}
+                      className={`p-3 rounded-xl border-2 transition-all ${
+                        isActive
+                          ? 'border-[#128807] bg-[#E8F5E4] shadow-sm'
+                          : 'border-gray-200 bg-gray-50'
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl">{grain.icon}</span>
+                          <span className="font-semibold text-gray-900 text-sm flex-1">{grain.type}</span>
+                        </div>
+                        <span className="text-[10px] text-gray-500 font-medium">
+                          Def: {grain.amount}{grain.unit}
+                        </span>
+                      </div>
+                      
+                      <div className="flex items-center justify-between gap-2">
+                        <button
+                          type="button"
+                          onClick={() => adjustQuantity(grain.type, -0.5)}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                            isActive ? 'bg-white text-green-700 shadow-sm hover:bg-green-100' : 'bg-gray-200 text-gray-400'
+                          }`}
+                        >
+                          <Minus size={14} />
+                        </button>
+                        
+                        <div className="flex-1 relative">
+                          <input
+                            type="number"
+                            min="0"
+                            step="0.5"
+                            value={grainQuantities[grain.type] || ''}
+                            onChange={(e) => updateQuantity(grain.type, e.target.value)}
+                            placeholder="0"
+                            className={`w-full text-center font-bold bg-transparent outline-none focus:border-b-2 transition-colors ${
+                              isExceeded ? 'text-red-600 focus:border-red-600 border-red-400' : 
+                              isActive ? 'text-green-800 focus:border-green-600' : 'text-gray-400'
+                            }`}
+                          />
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => adjustQuantity(grain.type, 0.5)}
+                          className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                            isActive ? 'bg-white text-green-700 shadow-sm hover:bg-green-100' : 'bg-white text-gray-600 shadow-sm hover:bg-gray-100'
+                          }`}
+                        >
+                          <Plus size={14} />
+                        </button>
+                        <span className="text-xs font-semibold text-gray-500 w-4">{grain.unit}</span>
+                      </div>
+
+                      {isExceeded && (
+                        <p className="text-[10px] font-bold text-red-600 mt-2 text-center bg-red-50 rounded py-1 animate-pulse">
+                          Warning: Exceeds monthly quota ({beneMax}{grain.unit})
+                        </p>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={!matchedName || totalQuantity <= 0 || isSubmitting}
+              className="w-full py-3 mt-2 rounded-xl font-semibold text-white transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+              style={{ backgroundColor: '#128807' }}
+            >
+              <Send size={18} />
+              Log Distribution {totalQuantity > 0 && `(${countSelectedItems} items)`}
+            </button>
+          </form>
+
+          {/* Today's Log */}
+          {todayTransactions.length > 0 && (
+                <div className="mt-4 border-t pt-4">
+                  <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                    Today's Entries ({todayTransactions.length})
+                  </h3>
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-2">
+                    {todayTransactions.map((txn) => {
+                      const currentStatus = state.verificationStatuses[txn.id] || txn.status;
+                      const isReported = currentStatus === 'reported';
+                      return (
+                        <div key={txn.id} className={`flex flex-col sm:flex-row items-start sm:items-center justify-between py-2.5 px-3 rounded-lg text-sm border border-transparent transition-colors ${isReported ? 'bg-[#FEF2F2]' : 'bg-gray-50 hover:border-gray-200'}`}>
+                          <div className="flex-1">
+                            <span className="font-medium text-gray-900">{txn.beneficiaryName}</span>
+                            <div className="text-xs text-gray-500 mt-0.5 flex items-center gap-1.5">
+                              <span className="font-semibold text-gray-700">{txn.grainType}</span>
+                              <span>•</span>
+                              <span className="font-bold text-gray-900">{txn.quantity}{txn.unit}</span>
+                            </div>
+                          </div>
+                          <div className="flex flex-col items-end gap-1.5 mt-2 sm:mt-0">
+                            <span className="text-[10px] text-gray-400 font-medium">
+                              {new Date(txn.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                            </span>
+                            <StatusBadge status={currentStatus} />
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {/* MONTHLY SUMMARY */}
+              <div className="mt-6 border-t pt-4 animate-fade-in-up">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">
+                  Monthly Summary (March 2026)
+                </h3>
+                
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                  <div className="bg-gray-50 p-3 rounded-xl border">
+                    <p className="text-xs text-gray-500 uppercase font-bold">Total Distributed</p>
+                    <p className="text-lg font-bold text-gray-900">{monthlyCount} families</p>
+                  </div>
+                  <div className="bg-green-50/50 p-3 rounded-xl border border-green-100">
+                    <p className="text-[10px] text-green-600 uppercase font-bold mb-1">🟢 Verified</p>
+                    <p className="text-lg font-bold text-green-700">
+                      {state.transactions.filter(t => t.dealerId === loggedInDealerId && (state.verificationStatuses[t.id] || t.status) === 'verified').length}
+                    </p>
+                  </div>
+                  <div className="bg-amber-50/50 p-3 rounded-xl border border-amber-100">
+                    <p className="text-[10px] text-amber-600 uppercase font-bold mb-1">🟡 Pending</p>
+                    <p className="text-lg font-bold text-amber-700">
+                      {state.transactions.filter(t => t.dealerId === loggedInDealerId && (state.verificationStatuses[t.id] || t.status) === 'pending').length}
+                    </p>
+                  </div>
+                  <div className="bg-red-50/50 p-3 rounded-xl border border-red-100">
+                    <p className="text-[10px] text-red-600 uppercase font-bold mb-1">🔴 Flagged</p>
+                    <p className="text-lg font-bold text-red-700">
+                      {state.transactions.filter(t => t.dealerId === loggedInDealerId && (state.verificationStatuses[t.id] || t.status) === 'reported').length}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                  <p className="text-xs text-gray-500 uppercase font-bold mb-3">Stock Remaining</p>
+                  <div className="flex flex-wrap gap-4 text-sm font-semibold">
+                    <span className="text-gray-700">Wheat <span className="text-black">450kg</span></span>
+                    <span className="text-gray-700">Rice <span className="text-black">210kg</span></span>
+                    <span className="text-gray-700">Sugar <span className="text-black">80kg</span></span>
+                    <span className="text-gray-700">Kerosene <span className="text-black">120L</span></span>
+                    <span className="text-gray-700">Dal <span className="text-black">150kg</span></span>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        {/* RIGHT — Phone SMS Mockup */}
+        <div className="flex items-start justify-center">
+          <div
+            className={`w-full max-w-[340px] rounded-[2.5rem] p-3 shadow-2xl transition-all ${phoneBrighten ? 'animate-phone-brighten' : ''}`}
+            style={{ backgroundColor: '#1a1a1a' }}
+          >
+            {/* Phone Screen */}
+            <div className="bg-white rounded-[2rem] overflow-hidden" style={{ minHeight: '580px' }}>
+              {/* Status Bar */}
+              <div className="px-5 pt-3 pb-2 flex items-center justify-between text-[11px] text-gray-500 bg-gray-50">
+                <div className="flex items-center gap-1">
+                  <Signal size={12} />
+                  <span className="font-medium">Airtel</span>
+                  <span className="text-[10px] opacity-70">2G</span>
+                </div>
+                <span className="font-medium text-gray-700">
+                  {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </span>
+                <div className="flex items-center gap-1">
+                  <Wifi size={12} />
+                  <Battery size={14} />
+                </div>
+              </div>
+
+              {/* Header */}
+              <div className="px-5 py-3 border-b border-gray-100 bg-gray-50">
+                <h3 className="font-semibold text-gray-900 text-sm">Messages</h3>
+              </div>
+
+              {/* Message area */}
+              <div className="p-4 space-y-3" style={{ minHeight: '440px' }}>
+                {phoneMessage ? (
+                  <div className="animate-fade-in-up">
+                    {/* Sender */}
+                    <div className="flex items-center gap-2 mb-2">
+                      <div
+                        className="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs"
+                        style={{ backgroundColor: '#E8620A' }}
+                      >
+                        RT
+                      </div>
+                      <div>
+                        <p className="font-semibold text-gray-900 text-sm">RationTrack</p>
+                        <p className="text-[10px] text-gray-400">
+                          {new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Message Bubble */}
+                    <div className="ml-10 bg-gray-100 rounded-2xl rounded-tl-sm p-4 max-w-[260px]">
+                      <p className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">
+                        {phoneMessage}
+                        {typingIndex < fullMessage.length && (
+                          <span className="inline-block w-0.5 h-4 bg-gray-800 ml-0.5 animate-pulse" />
+                        )}
+                      </p>
+                    </div>
+
+                    {/* Action Buttons */}
+                    {showButtons && (
+                      <div className="ml-10 mt-3 space-y-2 animate-fade-in-up">
+                        <button
+                          onClick={handleReportFraud}
+                          className="w-full py-2.5 rounded-xl font-semibold text-sm text-white transition-all hover:opacity-90"
+                          style={{ backgroundColor: '#EF4444' }}
+                        >
+                          🚨 Report Fraud
+                        </button>
+                        <button
+                          onClick={handleVerify}
+                          className="w-full py-2.5 rounded-xl font-semibold text-sm text-white transition-all hover:opacity-90"
+                          style={{ backgroundColor: '#22C55E' }}
+                        >
+                          ✅ Yes, it was me
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="h-full flex flex-col items-center justify-center text-center py-20 px-6">
+                    <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <Clock size={28} className="text-gray-300" />
+                    </div>
+                    <p className="text-gray-400 text-sm">
+                      SMS will appear here after distribution is logged
+                    </p>
+                    <p className="text-gray-300 text-xs mt-2">
+                      Beneficiary verification via SMS
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
         </div>
       </div>
     </div>

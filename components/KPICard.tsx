@@ -1,6 +1,10 @@
 'use client';
 
 import React from 'react';
+<<<<<<< HEAD
+=======
+import { LucideIcon } from 'lucide-react';
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
 
 interface KPICardProps {
   title: string;
@@ -22,6 +26,7 @@ export function KPICard({
   trend,
   color = 'blue',
 }: KPICardProps) {
+<<<<<<< HEAD
   const colorVariants = {
     blue: 'from-blue-500/20 to-blue-600/20 text-blue-600 dark:text-blue-400',
     emerald: 'from-emerald-500/20 to-emerald-600/20 text-emerald-600 dark:text-emerald-400',
@@ -57,6 +62,37 @@ export function KPICard({
         <div className={`p-3 rounded-2xl bg-gradient-to-br ${colorVariants[color]} shadow-sm group-hover:rotate-6 transition-transform duration-500`}>
           {React.cloneElement(icon as React.ReactElement, { className: 'w-6 h-6' })}
         </div>
+=======
+  const colorClasses = {
+    blue: 'text-blue-600 bg-blue-50',
+    emerald: 'text-emerald-600 bg-emerald-50',
+    amber: 'text-amber-600 bg-amber-50',
+    red: 'text-red-600 bg-red-50',
+  };
+
+  return (
+    <div className="bg-white rounded-2xl p-6 shadow-md hover:shadow-lg transition-shadow">
+      <div className="flex items-start justify-between">
+        <div className="flex-1">
+          <p className="text-gray-600 text-sm font-medium">{title}</p>
+          <div className="mt-2 flex items-baseline gap-2">
+            <h3 className="text-3xl font-bold text-gray-900">{value}</h3>
+            {trend && (
+              <span
+                className={`text-sm font-medium ${
+                  trend.isPositive ? 'text-emerald-600' : 'text-red-600'
+                }`}
+              >
+                {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
+              </span>
+            )}
+          </div>
+          {subtitle && (
+            <p className="text-xs text-gray-500 mt-2">{subtitle}</p>
+          )}
+        </div>
+        <div className={`p-3 rounded-xl ${colorClasses[color]}`}>{icon}</div>
+>>>>>>> 60e8cdbb3291e174c3ca45ba5c9e48340994c620
       </div>
     </div>
   );
