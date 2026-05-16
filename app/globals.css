@@ -1,0 +1,135 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.98 0.01 240);
+  --foreground: oklch(0.2 0.02 240);
+  
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.02 240);
+  
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.02 240);
+  
+  --primary: oklch(0.35 0.12 250); /* Deep Government Blue */
+  --primary-foreground: oklch(0.98 0.01 240);
+  
+  --secondary: oklch(0.95 0.02 250);
+  --secondary-foreground: oklch(0.35 0.12 250);
+  
+  --muted: oklch(0.92 0.01 240);
+  --muted-foreground: oklch(0.5 0.02 240);
+  
+  --accent: oklch(0.65 0.2 40); /* Saffron Accent */
+  --accent-foreground: oklch(1 0 0);
+  
+  --destructive: oklch(0.6 0.2 25);
+  --destructive-foreground: oklch(0.98 0.01 240);
+  
+  --border: oklch(0.9 0.01 240);
+  --input: oklch(0.9 0.01 240);
+  --ring: oklch(0.35 0.12 250 / 0.3);
+  
+  --radius: 1rem;
+
+  /* RationTrack Identity (Legacy & Modern Mix) */
+  --saffron: #E8620A;
+  --saffron-glow: oklch(0.65 0.2 40 / 0.1);
+  --india-green: #128807;
+  --india-green-glow: oklch(0.55 0.18 145 / 0.1);
+  --navy: #0D1F3C;
+  --navy-deep: #061121;
+}
+
+.dark {
+  --background: oklch(0.12 0.02 250);
+  --foreground: oklch(0.95 0.01 240);
+  
+  --card: oklch(0.16 0.02 250);
+  --card-foreground: oklch(0.95 0.01 240);
+  
+  --popover: oklch(0.16 0.02 250);
+  --popover-foreground: oklch(0.95 0.01 240);
+  
+  --primary: oklch(0.55 0.12 250);
+  --primary-foreground: oklch(0.12 0.02 250);
+  
+  --secondary: oklch(0.22 0.02 250);
+  --secondary-foreground: oklch(0.95 0.01 240);
+  
+  --muted: oklch(0.22 0.02 250);
+  --muted-foreground: oklch(0.65 0.01 240);
+  
+  --accent: oklch(0.7 0.18 45);
+  --accent-foreground: oklch(0.12 0.02 250);
+  
+  --border: oklch(0.22 0.02 250);
+  --input: oklch(0.22 0.02 250);
+  --ring: oklch(0.55 0.12 250 / 0.3);
+}
+
+@theme inline {
+  --font-sans: 'Inter', 'Geist', 'system-ui', 'sans-serif';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-saffron: var(--saffron);
+  --color-india-green: var(--india-green);
+  --color-navy: var(--navy);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  
+  --shadow-premium: 0 10px 30px -10px rgba(0, 0, 0, 0.1), 0 4px 10px -5px rgba(0, 0, 0, 0.04);
+  --shadow-glow: 0 0 20px -5px var(--primary);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-none transition-colors duration-200;
+  }
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/10 selection:text-primary;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/70 dark:bg-black/40 backdrop-blur-md border border-white/20 dark:border-white/10;
+  }
+  
+  .glass-card {
+    @apply bg-white/40 dark:bg-white/5 backdrop-blur-sm border border-white/20 dark:border-white/10 shadow-premium;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent;
+  }
+
+  .hover-lift {
+    @apply transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  .shimmer {
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite linear;
+  }
+}
